@@ -1,0 +1,18 @@
+class Rectangle:
+  def __init__(self, width, length):
+    self.width = width
+    self.length = length
+  
+  def area(self):
+    return self.width * self.length
+
+  def perimeter(self):
+    return (self.width + self.length) * 2
+  
+  def info(self):
+    return f"""Rectangle info : \n Width - {self.width} \n Length - {self.length} \n Area - {self.area()} \n Perimeter - {self.perimeter()}"""
+
+
+
+a = Rectangle(14, 10)
+print(a.info())
