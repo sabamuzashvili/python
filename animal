@@ -1,0 +1,26 @@
+class Animal:
+  def __init__(self, name, age):
+    self.name = name
+    self.age = age
+  
+  def info(self):
+    return (f"""Animal info : \n
+    Name - {self.name} \n
+    Age - {slef.age} \n
+    """)
+
+class Dog(Animal):
+  def __init__(self, breed, color):
+    self.breed = breed
+    self.color = color
+    
+  def info(self):
+    return (f"""Dog info : \n
+    Breed - {self.breed} \n
+    Color - {self.color} \n
+    """)
+
+dog1 = Dog("Rottweiler", "Black")
+dog2 = Dog("Dobberman", "Black")
+print(dog1.info())
+print(dog2.info())
