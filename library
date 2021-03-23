@@ -1,0 +1,17 @@
+class Books:
+  def __init__ (self, name, autor, release_date, number_of_pages):
+    self.name = name
+    self.autor = autor
+    self.release_date = release_date
+    self.number_of_pages = number_of_pages
+
+  def info (self):
+    return(f"""Book info :\n
+    Name - {self.name}\n
+    Autor - {self.autor}\n
+    Release date - {self.release_date}\n
+    Number of pages - {self.number_of_pages}""")
+
+book1 = Books("In Search of Lost Time", "Marcel Proust", 1913, 4215)
+book2 = Books("Ulysses", "James Joyce", 1904, 730)
+print ( f"{book1.info()}\n\n{book2.info()}")
