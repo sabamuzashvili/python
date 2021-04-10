@@ -1,0 +1,33 @@
+class Mylist(object):
+    def __init__(self,arg):
+        self.data = arg
+    def getlist(self):
+        return self.data
+    def __mul__(self, other):
+        try:
+            for i,j in enumerate(self.data):
+                print(i)
+                self.data[i] = j*other
+            return self.data
+        except:
+            print("not working")
+            return None
+
+    def __add__(self, other):
+        try:
+            for i in other.data:
+               self.data.append(i)
+            return self.data
+
+        except:
+            print("no")
+
+    def __str__(self):
+        stringi = ""
+        stringi += str([i for i in self.data])
+        return stringi
+l1=Mylist([1, 2, 3])
+l2=Mylist([4, 5, 6])
+print(l1 * 2)
+print(l1 + l2)
+print(str(l1))
