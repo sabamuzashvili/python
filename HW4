@@ -1,0 +1,112 @@
+import sqlite3
+import  pandas as pd
+
+
+class homework4(object):
+    def __init__(self,province,population,area):
+        self.area = area
+        self.province_or_teritory = province
+        self.population = population
+
+    def __str__(self):
+        return f"province_or_teritory {self.province_or_teritory} area: {self.area}, population: {self.population}"
+
+    def to_insert(self, table_name):
+        return f"INSERT INTO {table_name} VALUES ('{self.province_or_teritory}', '{self.population}', {self.area})"
+
+def load_data_in_file(data, conn):
+    cur = conn.cursor()
+    for i in data:
+        cur.execute(homework4.to_insert(homework4(i[0],i[1],i[2]),"density"))
+    conn.commit()
+
+def create_table(conn):
+    cur = conn.cursor()
+    cur.execute("drop table if exists density ")
+    cur.execute("create table density(province_or_teritory text,population integer,land_area real)")
+
+def printAll(con):
+    cur = con.cursor()
+    answer=cur.execute("select * from  density")
+    df=pd.DataFrame(answer)
+    df.columns=["province_or_teritory", "population", "land_area"]
+    print(df)
+
+def printPopulation(con):
+    cur=con.cursor()
+    answer=cur.execute("select population from density")
+    df=pd.DataFrame(answer)
+    df.columns=["population"]
+    print(df)
+
+def lessThanMilionPopulation(con):
+    cur=con.cursor()
+    answer=cur.execute("select province_or_teritory from density where population<1000000")
+    df=pd.DataFrame(answer)
+    df.columns=["province"]
+    print(df)
+
+def moreThanOneLessThanFive(con):
+    cur=con.cursor()
+    answer=cur.execute("select province_or_teritory from density where population>1000000 and population<5000000 ")
+    df=pd.DataFrame(answer)
+    df.columns=["province"]
+    print(df)
+
+def LessThanOneOrMoreThanFive(con):
+    cur=con.cursor()
+    answer=cur.execute("select province_or_teritory from density  where population<1000000 or population>5000000")
+    df=pd.DataFrame(answer)
+    df.columns=["province"]
+    print(df)
+
+def moreThan200000squareArea(con):
+    cur=con.cursor()
+    answer=cur.execute("select province_or_teritory from density where land_area>200000")
+    df=pd.DataFrame(answer)
+    df.columns=["province"]
+    print(df)
+
+def printPopulationDensity(con):
+    cur=con.cursor()
+    answer=cur.execute("select province_or_teritory,(population/land_area) as density from density ")
+    df=pd.DataFrame(answer)
+    df.columns=["province", "population density"]
+    print(df)
+
+
+def main():
+    data = [["NewFoundedLand and Labrador", 512930, 370501, 69],
+            ["Prince Edward Island", 135294, 5684.39],
+            ["Nova Scotia", 908007, 52917.43],
+            ["New Brunswick", 729498, 71355.67],
+            ["Quebec", 7237479, 1357743.08],
+            ["Ontario", 11410046, 907655.59],
+            ["Manitoba", 1119583, 551937.87],
+            ["Saskatchewan", 978933, 586561.35],
+            ["Alberta", 2974807, 639987.12],
+            ["British Columbia", 3907738, 926492.48],
+            ["Yukon Territory", 28674, 474706.97],
+            ["Northwest Territories", 37360, 1141108.37],
+            ["Nunavut", 26745, 1925460.18]]
+
+
+    con = sqlite3.connect('census.db')
+    create_table(con)
+    load_data_in_file(data,con)
+    printAll(con)
+    print("#########################")
+    lessThanMilionPopulation(con)
+    print("#########################")
+    moreThanOneLessThanFive(con)
+    print("#########################")
+    moreThan200000squareArea(con)
+    print("#########################")
+    LessThanOneOrMoreThanFive(con)
+    print("#########################")
+    printPopulationDensity(con)
+    print("#########################")
+    con.close()
+
+if __name__=='__main__':
+    main()
